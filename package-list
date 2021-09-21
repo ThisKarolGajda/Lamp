@@ -11,7 +11,6 @@ revxrsal.commands.bungee.core
 revxrsal.commands.bungee.exception
 revxrsal.commands.cli
 revxrsal.commands.cli.core
-revxrsal.commands.cli.test
 revxrsal.commands.command
 revxrsal.commands.core
 revxrsal.commands.core.reflect
