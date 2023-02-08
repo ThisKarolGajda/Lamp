@@ -41,7 +41,7 @@ import java.util.StringJoiner;
  */
 public class DefaultExceptionHandler extends CommandExceptionAdapter {
 
-    public static final DefaultExceptionHandler INSTANCE = new DefaultExceptionHandler("Musisz wybrac wartosc dla {0}!", "Nieprawidlowe {0}: {1}.", "Oczekiwano liczbe, znaleziono \\''{0}\\''.", "Nieprawidlowe UUID: {0}", "Nieprawidlowy link: {0}", "Oczekiwano tak lub nie, znaleziono \\''{0}\\''.", "Nie masz pozwolenia do wykonania tego zadania.", "Nieprawidlowe oznaczenie.", "Wystapil nieoczekiwany blad.", "Zbyt duzo argumentow! Oczekiwano: /{0}", "Brak wybranej subkomendy!", "Musisz poczekac {0} zanim uzyjesz tej komendy ponownie.", "{0} musi byc pomiedzy {1} i {2} (znaleziono {3})", "Nieprawidlowa komenda: {0}.", "Nieprawidlowa subkomenda: {0}.", "Nieprawidlowa strona pomocy: {0}. Musi byc pomiedzy 1 i {1}.");
+    public static final DefaultExceptionHandler INSTANCE = new DefaultExceptionHandler();
     public static final NumberFormat FORMAT = NumberFormat.getInstance();
 
     private final String missingArgument;
@@ -78,6 +78,10 @@ public class DefaultExceptionHandler extends CommandExceptionAdapter {
         this.invalidCommand = invalidCommand;
         this.invalidSubcommand = invalidSubcommand;
         this.invalidHelpPage = invalidHelpPage;
+    }
+
+    public DefaultExceptionHandler() {
+        this("Musisz wybrać wartość dla {0}!", "Nieprawidłowe {0}: {1}.", "Oczekiwano liczbę, znaleziono \\''{0}\\''.", "Nieprawidłowe UUID: {0}", "Nieprawidłowy link: {0}", "Oczekiwano tak lub nie, znaleziono \\''{0}\\''.", "Nie masz pozwolenia do wykonania tego zadania.", "Nieprawidłowe oznaczenie.", "Wystapil nieoczekiwany błąd.", "Zbyt dużo argumentów! Oczekiwano: /{0}", "Brak wybranej subkomendy!", "Musisz poczekać {0} zanim użyjesz tej komendy ponownie.", "{0} musi być pomiędzy {1} i {2} (znaleziono {3})", "Nieprawidłowa komenda: {0}.", "Nieprawidłowa subkomenda: {0}.", "Nieprawidłowa strona pomocy: {0}. Musi byc pomiędzy 1 i {1}.");
     }
 
     @Override
