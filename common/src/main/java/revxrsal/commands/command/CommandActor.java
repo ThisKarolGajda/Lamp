@@ -130,6 +130,11 @@ public interface CommandActor {
         error(message);
     }
 
+    default void errorLocalizedMessage(@NotNull String message, Object... args) {
+        String er = MessageFormat.format(message, args);
+        error(er);
+    }
+
     /**
      * Returns this actor as the specified type. This is effectively
      * casting this actor to the given type.

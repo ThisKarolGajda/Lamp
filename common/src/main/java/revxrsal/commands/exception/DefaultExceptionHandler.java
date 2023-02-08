@@ -41,81 +41,134 @@ import java.util.StringJoiner;
  */
 public class DefaultExceptionHandler extends CommandExceptionAdapter {
 
-    public static final DefaultExceptionHandler INSTANCE = new DefaultExceptionHandler();
+    public static final DefaultExceptionHandler INSTANCE = new DefaultExceptionHandler("Musisz wybrac wartosc dla {0}!", "Nieprawidlowe {0}: {1}.", "Oczekiwano liczbe, znaleziono \\''{0}\\''.", "Nieprawidlowe UUID: {0}", "Nieprawidlowy link: {0}", "Oczekiwano tak lub nie, znaleziono \\''{0}\\''.", "Nie masz pozwolenia do wykonania tego zadania.", "Nieprawidlowe oznaczenie.", "Wystapil nieoczekiwany blad.", "Zbyt duzo argumentow! Oczekiwano: /{0}", "Brak wybranej subkomendy!", "Musisz poczekac {0} zanim uzyjesz tej komendy ponownie.", "{0} musi byc pomiedzy {1} i {2} (znaleziono {3})", "Nieprawidlowa komenda: {0}.", "Nieprawidlowa subkomenda: {0}.", "Nieprawidlowa strona pomocy: {0}. Musi byc pomiedzy 1 i {1}.");
     public static final NumberFormat FORMAT = NumberFormat.getInstance();
 
-    @Override public void missingArgument(@NotNull CommandActor actor, @NotNull MissingArgumentException exception) {
-        actor.errorLocalized("missing-argument", exception.getParameter().getName());
+    private final String missingArgument;
+    private final String invalidEnum;
+    private final String invalidNumber;
+    private final String invalidUuid;
+    private final String invalidUrl;
+    private final String invalidBoolean;
+    private final String noPermission;
+    private final String invalidQuotedString;
+    private final String errorOccurred;
+    private final String tooManyArguments;
+    private final String noSubcommandSpecified;
+    private final String onCooldown;
+    private final String numberNotInRange;
+    private final String invalidCommand;
+    private final String invalidSubcommand;
+    private final String invalidHelpPage;
+
+    public DefaultExceptionHandler(String missingArgument, String invalidEnum, String invalidNumber, String invalidUuid, String invalidUrl, String invalidBoolean, String noPermission, String invalidQuotedString, String errorOccurred, String tooManyArguments, String noSubcommandSpecified, String onCooldown, String numberNotInRange, String invalidCommand, String invalidSubcommand, String invalidHelpPage) {
+        this.missingArgument = missingArgument;
+        this.invalidEnum = invalidEnum;
+        this.invalidNumber = invalidNumber;
+        this.invalidUuid = invalidUuid;
+        this.invalidUrl = invalidUrl;
+        this.invalidBoolean = invalidBoolean;
+        this.noPermission = noPermission;
+        this.invalidQuotedString = invalidQuotedString;
+        this.errorOccurred = errorOccurred;
+        this.tooManyArguments = tooManyArguments;
+        this.noSubcommandSpecified = noSubcommandSpecified;
+        this.onCooldown = onCooldown;
+        this.numberNotInRange = numberNotInRange;
+        this.invalidCommand = invalidCommand;
+        this.invalidSubcommand = invalidSubcommand;
+        this.invalidHelpPage = invalidHelpPage;
     }
 
-    @Override public void invalidEnumValue(@NotNull CommandActor actor, @NotNull EnumNotFoundException exception) {
-        actor.errorLocalized("invalid-enum", exception.getParameter().getName(), exception.getInput());
+    @Override
+    public void missingArgument(@NotNull CommandActor actor, @NotNull MissingArgumentException exception) {
+        actor.errorLocalizedMessage(missingArgument, exception.getParameter().getName());
     }
 
-    @Override public void invalidNumber(@NotNull CommandActor actor, @NotNull InvalidNumberException exception) {
+    @Override
+    public void invalidEnumValue(@NotNull CommandActor actor, @NotNull EnumNotFoundException exception) {
+        actor.errorLocalizedMessage(invalidEnum, exception.getParameter().getName(), exception.getInput());
+    }
+
+    @Override
+    public void invalidNumber(@NotNull CommandActor actor, @NotNull InvalidNumberException exception) {
 //        actor.error("Expected a number, but found '" + exception.getInput() + "'.");
-        actor.errorLocalized("invalid-number", exception.getInput());
+        actor.errorLocalizedMessage(invalidNumber, exception.getInput());
     }
 
-    @Override public void invalidUUID(@NotNull CommandActor actor, @NotNull InvalidUUIDException exception) {
-        actor.errorLocalized("invalid-uuid", exception.getInput());
+    @Override
+    public void invalidUUID(@NotNull CommandActor actor, @NotNull InvalidUUIDException exception) {
+        actor.errorLocalizedMessage(invalidUuid, exception.getInput());
     }
 
-    @Override public void invalidURL(@NotNull CommandActor actor, @NotNull InvalidURLException exception) {
-        actor.errorLocalized("invalid-url", exception.getInput());
+    @Override
+    public void invalidURL(@NotNull CommandActor actor, @NotNull InvalidURLException exception) {
+        actor.errorLocalizedMessage(invalidUrl, exception.getInput());
     }
 
-    @Override public void invalidBoolean(@NotNull CommandActor actor, @NotNull InvalidBooleanException exception) {
-        actor.errorLocalized("invalid-boolean", exception.getInput());
+    @Override
+    public void invalidBoolean(@NotNull CommandActor actor, @NotNull InvalidBooleanException exception) {
+        actor.errorLocalizedMessage(invalidBoolean, exception.getInput());
     }
 
-    @Override public void noPermission(@NotNull CommandActor actor, @NotNull NoPermissionException exception) {
-        actor.errorLocalized("no-permission");
+    @Override
+    public void noPermission(@NotNull CommandActor actor, @NotNull NoPermissionException exception) {
+        actor.errorLocalizedMessage(noPermission);
     }
 
-    @Override public void argumentParse(@NotNull CommandActor actor, @NotNull ArgumentParseException exception) {
-        actor.errorLocalized("invalid-quoted-string");
+    @Override
+    public void argumentParse(@NotNull CommandActor actor, @NotNull ArgumentParseException exception) {
+        actor.errorLocalizedMessage(invalidQuotedString);
         actor.error(exception.getSourceString());
         actor.error(exception.getAnnotatedPosition());
     }
 
-    @Override public void commandInvocation(@NotNull CommandActor actor, @NotNull CommandInvocationException exception) {
-        actor.errorLocalized("error-occurred");
+    @Override
+    public void commandInvocation(@NotNull CommandActor actor, @NotNull CommandInvocationException exception) {
+        actor.errorLocalizedMessage(errorOccurred);
         exception.getCause().printStackTrace();
     }
 
-    @Override public void tooManyArguments(@NotNull CommandActor actor, @NotNull TooManyArgumentsException exception) {
+    @Override
+    public void tooManyArguments(@NotNull CommandActor actor, @NotNull TooManyArgumentsException exception) {
         ExecutableCommand command = exception.getCommand();
         String usage = (command.getPath().toRealString() + " " + command.getUsage()).trim();
-        actor.errorLocalized("too-many-arguments", usage);
+        actor.errorLocalizedMessage(tooManyArguments, usage);
     }
 
-    @Override public void invalidCommand(@NotNull CommandActor actor, @NotNull InvalidCommandException exception) {
-        actor.errorLocalized("invalid-command", exception.getInput());
+    @Override
+    public void invalidCommand(@NotNull CommandActor actor, @NotNull InvalidCommandException exception) {
+        actor.errorLocalizedMessage(invalidCommand, exception.getInput());
     }
 
-    @Override public void invalidSubcommand(@NotNull CommandActor actor, @NotNull InvalidSubcommandException exception) {
-        actor.errorLocalized("invalid-subcommand", exception.getInput());
+    @Override
+    public void invalidSubcommand(@NotNull CommandActor actor, @NotNull InvalidSubcommandException exception) {
+        actor.errorLocalizedMessage(invalidSubcommand, exception.getInput());
     }
 
-    @Override public void noSubcommandSpecified(@NotNull CommandActor actor, @NotNull NoSubcommandSpecifiedException exception) {
-        actor.errorLocalized("no-subcommand-specified");
+    @Override
+    public void noSubcommandSpecified(@NotNull CommandActor actor, @NotNull NoSubcommandSpecifiedException exception) {
+        actor.errorLocalizedMessage(noSubcommandSpecified);
     }
 
-    @Override public void cooldown(@NotNull CommandActor actor, @NotNull CooldownException exception) {
-        actor.errorLocalized("on-cooldown", formatTimeFancy(exception.getTimeLeftMillis()));
+    @Override
+    public void cooldown(@NotNull CommandActor actor, @NotNull CooldownException exception) {
+        actor.errorLocalizedMessage(onCooldown, formatTimeFancy(exception.getTimeLeftMillis()));
     }
 
-    @Override public void invalidHelpPage(@NotNull CommandActor actor, @NotNull InvalidHelpPageException exception) {
-        actor.errorLocalized("invalid-help-page", exception.getPage(), exception.getPageCount());
+    @Override
+    public void invalidHelpPage(@NotNull CommandActor actor, @NotNull InvalidHelpPageException exception) {
+        actor.errorLocalizedMessage(invalidHelpPage, exception.getPage(), exception.getPageCount());
     }
 
-    @Override public void sendableException(@NotNull CommandActor actor, @NotNull SendableException exception) {
+    @Override
+    public void sendableException(@NotNull CommandActor actor, @NotNull SendableException exception) {
         exception.sendTo(actor);
     }
 
-    @Override public void numberNotInRange(@NotNull CommandActor actor, @NotNull NumberNotInRangeException exception) {
-        actor.errorLocalized("number-not-in-range",
+    @Override
+    public void numberNotInRange(@NotNull CommandActor actor, @NotNull NumberNotInRangeException exception) {
+        actor.errorLocalizedMessage(numberNotInRange,
                 exception.getParameter().getName(),
                 FORMAT.format(exception.getMinimum()),
                 FORMAT.format(exception.getMaximum()),
@@ -123,7 +176,8 @@ public class DefaultExceptionHandler extends CommandExceptionAdapter {
         );
     }
 
-    @Override public void onUnhandledException(@NotNull CommandActor actor, @NotNull Throwable throwable) {
+    @Override
+    public void onUnhandledException(@NotNull CommandActor actor, @NotNull Throwable throwable) {
         throwable.printStackTrace();
     }
 

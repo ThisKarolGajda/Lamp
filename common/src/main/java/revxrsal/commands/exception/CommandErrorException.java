@@ -54,6 +54,6 @@ public class CommandErrorException extends SendableException {
      * @param actor Actor to send to
      */
     @Override public void sendTo(@NotNull CommandActor actor) {
-        actor.errorLocalized(getMessage(), arguments);
+        actor.errorLocalizedMessage(getMessage(), arguments);
     }
 }
