@@ -41,7 +41,7 @@ import java.util.StringJoiner;
  */
 public class DefaultExceptionHandler extends CommandExceptionAdapter {
 
-    public static final DefaultExceptionHandler INSTANCE = new DefaultExceptionHandler();
+    public static final DefaultExceptionHandler INSTANCE = new PolishDefaultExceptionHandler();
     public static final NumberFormat FORMAT = NumberFormat.getInstance();
 
     private final String missingArgument;
@@ -81,7 +81,22 @@ public class DefaultExceptionHandler extends CommandExceptionAdapter {
     }
 
     public DefaultExceptionHandler() {
-        this("Musisz wybrać wartość dla {0}!", "Nieprawidłowe {0}: {1}.", "Oczekiwano liczbę, znaleziono \\''{0}\\''.", "Nieprawidłowe UUID: {0}", "Nieprawidłowy link: {0}", "Oczekiwano tak lub nie, znaleziono \\''{0}\\''.", "Nie masz pozwolenia do wykonania tego zadania.", "Nieprawidłowe oznaczenie.", "Wystapil nieoczekiwany błąd.", "Zbyt dużo argumentów! Oczekiwano: /{0}", "Brak wybranej subkomendy!", "Musisz poczekać {0} zanim użyjesz tej komendy ponownie.", "{0} musi być pomiędzy {1} i {2} (znaleziono {3})", "Nieprawidłowa komenda: {0}.", "Nieprawidłowa subkomenda: {0}.", "Nieprawidłowa strona pomocy: {0}. Musi byc pomiędzy 1 i {1}.");
+        this.missingArgument = null;
+        this.invalidEnum = null;
+        this.invalidNumber = null;
+        this.invalidUuid = null;
+        this.invalidUrl = null;
+        this.invalidBoolean = null;
+        this.noPermission = null;
+        this.invalidQuotedString = null;
+        this.errorOccurred = null;
+        this.tooManyArguments = null;
+        this.noSubcommandSpecified = null;
+        this.onCooldown = null;
+        this.numberNotInRange = null;
+        this.invalidCommand = null;
+        this.invalidSubcommand = null;
+        this.invalidHelpPage = null;
     }
 
     @Override
