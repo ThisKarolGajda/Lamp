@@ -80,23 +80,11 @@ public class DefaultExceptionHandler extends CommandExceptionAdapter {
         this.invalidHelpPage = invalidHelpPage;
     }
 
-    public DefaultExceptionHandler() {
-        this.missingArgument = null;
-        this.invalidEnum = null;
-        this.invalidNumber = null;
-        this.invalidUuid = null;
-        this.invalidUrl = null;
-        this.invalidBoolean = null;
-        this.noPermission = null;
-        this.invalidQuotedString = null;
-        this.errorOccurred = null;
-        this.tooManyArguments = null;
-        this.noSubcommandSpecified = null;
-        this.onCooldown = null;
-        this.numberNotInRange = null;
-        this.invalidCommand = null;
-        this.invalidSubcommand = null;
-        this.invalidHelpPage = null;
+    public DefaultExceptionHandler(@NotNull DefaultExceptionHandler instance) {
+        this(instance.missingArgument, instance.invalidEnum, instance.invalidNumber, instance.invalidUuid, instance.invalidUrl,
+                instance.invalidBoolean, instance.noPermission, instance.invalidQuotedString, instance.errorOccurred,
+                instance.tooManyArguments, instance.noSubcommandSpecified, instance.onCooldown, instance.numberNotInRange,
+                instance.invalidCommand, instance.invalidSubcommand, instance.invalidHelpPage);
     }
 
     @Override

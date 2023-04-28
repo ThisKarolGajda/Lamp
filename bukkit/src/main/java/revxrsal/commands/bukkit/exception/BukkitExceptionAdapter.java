@@ -22,7 +22,7 @@ public class BukkitExceptionAdapter extends DefaultExceptionHandler {
 
 
     public BukkitExceptionAdapter(String mustBePlayer, String mustBeConsole, String invalidPlayer, String invalidWorld, String invalidSelector, String selectedMoreThanOnePlayer, String selectedEntitiesAreNotAllowed) {
-        super();
+        super(DefaultExceptionHandler.INSTANCE);
         this.mustBePlayer = mustBePlayer;
         this.mustBeConsole = mustBeConsole;
         this.invalidPlayer = invalidPlayer;
